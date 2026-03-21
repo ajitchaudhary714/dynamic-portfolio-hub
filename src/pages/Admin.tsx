@@ -125,7 +125,7 @@ const AdminPanel = () => {
                       <h3 className="font-medium text-foreground">{p.title}</h3>
                       <a href={p.link} target="_blank" rel="noopener noreferrer" className="text-xs text-primary hover:underline">{p.link}</a>
                     </div>
-                    <span className="text-xs px-3 py-1 rounded-full bg-green-500/10 text-green-400">{p.status}</span>
+                    <span className="text-xs px-3 py-1 rounded-full bg-primary/10 text-primary">{p.status}</span>
                   </div>
                 ))}
               </div>
