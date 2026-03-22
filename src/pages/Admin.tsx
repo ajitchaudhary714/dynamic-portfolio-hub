@@ -309,6 +309,86 @@ const SocialTab = () => {
   );
 };
 
+const ExperienceTab = () => {
+  const { data: experiences, isLoading } = useExperiences();
+  const addExp = useAddExperience();
+  const updateExp = useUpdateExperience();
+  const deleteExp = useDeleteExperience();
+  const [showAdd, setShowAdd] = useState(false);
+  const [newExp, setNewExp] = useState({ company: "", role: "", start_date: "", end_date: "", type: "Remote" });
+  const [editId, setEditId] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState({ company: "", role: "", start_date: "", end_date: "", type: "" });
+
+  if (isLoading) return <p className="text-muted-foreground">Loading...</p>;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-between items-center">
+        <p className="text-muted-foreground text-sm">{experiences?.length || 0} experiences</p>
+        <button onClick={() => setShowAdd(!showAdd)} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90">
+          <Plus className="w-4 h-4" /> Add Experience
+        </button>
+      </div>
+
+      {showAdd && (
+        <div className="p-4 rounded-xl bg-card border border-border space-y-3">
+          <input className={inputClass} placeholder="Company Name" value={newExp.company} onChange={(e) => setNewExp({ ...newExp, company: e.target.value })} />
+          <input className={inputClass} placeholder="Role (e.g. Frontend Developer)" value={newExp.role} onChange={(e) => setNewExp({ ...newExp, role: e.target.value })} />
+          <div className="grid grid-cols-2 gap-3">
+            <input className={inputClass} placeholder="Start Date (e.g. March 2023)" value={newExp.start_date} onChange={(e) => setNewExp({ ...newExp, start_date: e.target.value })} />
+            <input className={inputClass} placeholder="End Date (e.g. October 2023)" value={newExp.end_date} onChange={(e) => setNewExp({ ...newExp, end_date: e.target.value })} />
+          </div>
+          <select className={inputClass} value={newExp.type} onChange={(e) => setNewExp({ ...newExp, type: e.target.value })}>
+            <option value="Remote">Remote</option>
+            <option value="On-site">On-site</option>
+            <option value="Hybrid">Hybrid</option>
+          </select>
+          <div className="flex gap-2">
+            <button onClick={() => { if (!newExp.company.trim()) return; addExp.mutate({ ...newExp, sort_order: (experiences?.length || 0) + 1 }, { onSuccess: () => { toast.success("Experience added!"); setNewExp({ company: "", role: "", start_date: "", end_date: "", type: "Remote" }); setShowAdd(false); } }); }} className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm hover:opacity-90">Add</button>
+            <button onClick={() => setShowAdd(false)} className="px-4 py-2 rounded-lg border border-border text-sm text-muted-foreground">Cancel</button>
+          </div>
+        </div>
+      )}
+
+      {experiences?.map((exp) => (
+        <div key={exp.id} className="p-4 rounded-xl bg-card border border-border">
+          {editId === exp.id ? (
+            <div className="space-y-3">
+              <input className={inputClass} value={editForm.company} onChange={(e) => setEditForm({ ...editForm, company: e.target.value })} />
+              <input className={inputClass} value={editForm.role} onChange={(e) => setEditForm({ ...editForm, role: e.target.value })} />
+              <div className="grid grid-cols-2 gap-3">
+                <input className={inputClass} value={editForm.start_date} onChange={(e) => setEditForm({ ...editForm, start_date: e.target.value })} />
+                <input className={inputClass} value={editForm.end_date} onChange={(e) => setEditForm({ ...editForm, end_date: e.target.value })} />
+              </div>
+              <select className={inputClass} value={editForm.type} onChange={(e) => setEditForm({ ...editForm, type: e.target.value })}>
+                <option value="Remote">Remote</option>
+                <option value="On-site">On-site</option>
+                <option value="Hybrid">Hybrid</option>
+              </select>
+              <div className="flex gap-2">
+                <button onClick={() => { updateExp.mutate({ id: exp.id, ...editForm }, { onSuccess: () => { toast.success("Updated!"); setEditId(null); } }); }} className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm hover:opacity-90">Save</button>
+                <button onClick={() => setEditId(null)} className="px-4 py-2 rounded-lg border border-border text-sm text-muted-foreground">Cancel</button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-start justify-between">
+              <div>
+                <h3 className="font-medium text-foreground">{exp.company}</h3>
+                <p className="text-sm text-primary">{exp.role}</p>
+                <p className="text-xs text-muted-foreground mt-1">{exp.start_date} — {exp.end_date} · {exp.type}</p>
+              </div>
+              <div className="flex gap-2">
+                <button onClick={() => { setEditId(exp.id); setEditForm({ company: exp.company, role: exp.role, start_date: exp.start_date, end_date: exp.end_date, type: exp.type || "Remote" }); }} className="text-muted-foreground hover:text-foreground"><Code2 className="w-4 h-4" /></button>
+                <button onClick={() => deleteExp.mutate(exp.id, { onSuccess: () => toast.success("Deleted!") })} className="text-muted-foreground hover:text-destructive"><Trash2 className="w-4 h-4" /></button>
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+};
+
 const MessagesTab = () => {
   const { data: messages, isLoading } = useMessages();
   const markRead = useMarkMessageRead();
