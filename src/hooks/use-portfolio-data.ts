@@ -184,3 +184,47 @@ export const useDeleteMessage = () => {
     onSuccess: () => qc.invalidateQueries({ queryKey: ["messages"] }),
   });
 };
+
+// Experiences
+export const useExperiences = () =>
+  useQuery({
+    queryKey: ["experiences"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("experiences").select("*").order("sort_order");
+      if (error) throw error;
+      return data;
+    },
+  });
+
+export const useAddExperience = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (exp: { company: string; role: string; start_date: string; end_date: string; type?: string; sort_order?: number }) => {
+      const { error } = await supabase.from("experiences").insert(exp);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["experiences"] }),
+  });
+};
+
+export const useUpdateExperience = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async ({ id, ...updates }: { id: string; company?: string; role?: string; start_date?: string; end_date?: string; type?: string }) => {
+      const { error } = await supabase.from("experiences").update(updates).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["experiences"] }),
+  });
+};
+
+export const useDeleteExperience = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("experiences").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["experiences"] }),
+  });
+};

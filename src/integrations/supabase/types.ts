@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      experiences: {
+        Row: {
+          company: string
+          created_at: string
+          end_date: string
+          id: string
+          role: string
+          sort_order: number | null
+          start_date: string
+          type: string | null
+        }
+        Insert: {
+          company: string
+          created_at?: string
+          end_date: string
+          id?: string
+          role: string
+          sort_order?: number | null
+          start_date: string
+          type?: string | null
+        }
+        Update: {
+          company?: string
+          created_at?: string
+          end_date?: string
+          id?: string
+          role?: string
+          sort_order?: number | null
+          start_date?: string
+          type?: string | null
+        }
+        Relationships: []
+      }
       messages: {
         Row: {
           created_at: string
