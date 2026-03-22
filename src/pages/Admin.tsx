@@ -76,6 +76,7 @@ const AdminDashboard = ({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen, 
             {activeTab === "profile" && <ProfileTab />}
             {activeTab === "projects" && <ProjectsTab />}
             {activeTab === "skills" && <SkillsTab />}
+            {activeTab === "experience" && <ExperienceTab />}
             {activeTab === "social" && <SocialTab />}
             {activeTab === "messages" && <MessagesTab />}
           </motion.div>
