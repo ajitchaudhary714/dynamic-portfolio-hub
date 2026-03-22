@@ -4,10 +4,10 @@ import { LogOut, User, Briefcase, Code2, Mail, Link2, Menu, X, Trash2, Plus, Che
 import { useAuth } from "@/hooks/use-auth";
 import AdminLogin from "@/components/AdminLogin";
 import {
-  useProfile, useProjects, useSkills, useSocialLinks, useMessages,
+  useProfile, useProjects, useSkills, useSocialLinks, useMessages, useExperiences,
   useUpdateProfile, useAddProject, useUpdateProject, useDeleteProject,
   useAddSkill, useDeleteSkill, useAddSocialLink, useUpdateSocialLink, useDeleteSocialLink,
-  useMarkMessageRead, useDeleteMessage,
+  useMarkMessageRead, useDeleteMessage, useAddExperience, useUpdateExperience, useDeleteExperience,
 } from "@/hooks/use-portfolio-data";
 import { toast } from "sonner";
 
