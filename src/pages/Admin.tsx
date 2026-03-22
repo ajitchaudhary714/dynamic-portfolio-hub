@@ -31,6 +31,7 @@ const AdminDashboard = ({ activeTab, setActiveTab, sidebarOpen, setSidebarOpen, 
     { id: "profile", label: "Profile", icon: <User className="w-4 h-4" /> },
     { id: "projects", label: "Projects", icon: <Briefcase className="w-4 h-4" /> },
     { id: "skills", label: "Skills", icon: <Code2 className="w-4 h-4" /> },
+    { id: "experience", label: "Experience", icon: <Briefcase className="w-4 h-4" /> },
     { id: "social", label: "Social Links", icon: <Link2 className="w-4 h-4" /> },
     { id: "messages", label: "Messages", icon: <Mail className="w-4 h-4" /> },
   ];
