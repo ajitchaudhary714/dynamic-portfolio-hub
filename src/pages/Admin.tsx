@@ -11,7 +11,7 @@ import {
 } from "@/hooks/use-portfolio-data";
 import { toast } from "sonner";
 
-type Tab = "profile" | "projects" | "skills" | "social" | "messages";
+type Tab = "profile" | "projects" | "skills" | "experience" | "social" | "messages";
 
 const AdminPanel = () => {
   const { session, loading: authLoading, signOut } = useAuth();
