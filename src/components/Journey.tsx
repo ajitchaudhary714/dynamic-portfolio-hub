@@ -1,9 +1,6 @@
 import { motion } from "framer-motion";
-
-const timeline = [
-  { year: "2024", title: "Frontend Developer", company: "Web Solutions Ltd." },
-  { year: "2022", title: "Junior Developer", company: "StartUp Crew" },
-];
+import { Briefcase, MapPin, Calendar } from "lucide-react";
+import { useExperiences } from "@/hooks/use-portfolio-data";
 
 const hobbies = [
   { title: "Traveling", desc: "Exploring new cultures and cuisines", emoji: "✈️" },
@@ -11,64 +8,109 @@ const hobbies = [
   { title: "Open Source", desc: "Contributing to community projects", emoji: "🌐" },
 ];
 
-const Journey = () => (
-  <section className="py-24 px-6 md:px-12">
-    <div className="max-w-5xl mx-auto">
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-3xl md:text-4xl font-bold text-center mb-16 text-gradient"
-      >
-        My Journey
-      </motion.h2>
+const Journey = () => {
+  const { data: experiences } = useExperiences();
 
-      <div className="space-y-8 mb-20 max-w-2xl mx-auto">
-        {timeline.map((item, i) => (
-          <motion.div
-            key={item.year}
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.15 }}
-            className="flex gap-6 items-start"
-          >
-            <span className="text-primary font-bold text-lg min-w-[4rem]">{item.year}</span>
-            <div className="border-l-2 border-primary/30 pl-6">
-              <h3 className="text-lg font-semibold text-foreground">{item.title}</h3>
-              <p className="text-muted-foreground text-sm">{item.company}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+  return (
+    <section id="journey" className="relative z-10 py-24 px-6 md:px-12">
+      <div className="max-w-5xl mx-auto">
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-3xl md:text-4xl font-bold text-center mb-4 text-gradient"
+        >
+          My Journey
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="text-center text-muted-foreground mb-16"
+        >
+          Professional experience & career path
+        </motion.p>
 
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="text-3xl md:text-4xl font-bold text-center mb-12 text-gradient"
-      >
-        When I'm Not Coding
-      </motion.h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {hobbies.map((h, i) => (
-          <motion.div
-            key={h.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            whileHover={{ y: -4 }}
-            className="p-6 rounded-xl bg-card border border-border text-center"
-          >
-            <span className="text-3xl mb-3 block">{h.emoji}</span>
-            <h3 className="font-semibold text-foreground mb-1">{h.title}</h3>
-            <p className="text-sm text-muted-foreground">{h.desc}</p>
-          </motion.div>
-        ))}
+        {/* Timeline */}
+        <div className="relative max-w-3xl mx-auto mb-24">
+          {/* Vertical line */}
+          <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-secondary to-transparent" />
+
+          {experiences?.map((exp, i) => (
+            <motion.div
+              key={exp.id}
+              initial={{ opacity: 0, x: i % 2 === 0 ? -60 : 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.2, type: "spring", stiffness: 100 }}
+              className={`relative flex items-start mb-12 ${
+                i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
+              }`}
+            >
+              {/* Dot */}
+              <motion.div
+                className="absolute left-6 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-primary border-4 border-background z-10"
+                whileInView={{ scale: [0, 1.3, 1] }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.2 + 0.3 }}
+              />
+
+              {/* Card */}
+              <div className={`ml-14 md:ml-0 md:w-[45%] ${i % 2 === 0 ? "md:pr-12" : "md:pl-12"}`}>
+                <motion.div
+                  whileHover={{ y: -4, scale: 1.02 }}
+                  className="p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/40 transition-all"
+                >
+                  <div className="flex items-center gap-2 text-primary mb-2">
+                    <Briefcase className="w-4 h-4" />
+                    <span className="text-sm font-semibold">{exp.role}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">{exp.company}</h3>
+                  <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Calendar className="w-3 h-3" />
+                      {exp.start_date} — {exp.end_date}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      {exp.type}
+                    </span>
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Hobbies */}
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-3xl md:text-4xl font-bold text-center mb-12 text-gradient"
+        >
+          When I'm Not Coding
+        </motion.h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {hobbies.map((h, i) => (
+            <motion.div
+              key={h.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -6, scale: 1.03 }}
+              className="p-6 rounded-xl bg-card/80 backdrop-blur-sm border border-border hover:border-primary/40 text-center transition-all"
+            >
+              <span className="text-3xl mb-3 block">{h.emoji}</span>
+              <h3 className="font-semibold text-foreground mb-1">{h.title}</h3>
+              <p className="text-sm text-muted-foreground">{h.desc}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 export default Journey;
