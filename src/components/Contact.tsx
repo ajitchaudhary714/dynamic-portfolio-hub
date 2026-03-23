@@ -2,7 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { useProfile, useSendMessage } from "@/hooks/use-portfolio-data";
-import ajitPhoto from "@/assets/ajit-photo.jpeg";
+import ajitPhoto from "@/assets/ajitcontact.jpeg";
 import { toast } from "sonner";
 
 const Contact = () => {
@@ -26,15 +26,19 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative z-10 py-24 px-6 md:px-12">
-      <div className="max-w-5xl mx-auto">
+      <section id="contact" className="relative z-10 py-24 px-6 md:px-12">
+      <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, x: -40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="text-center md:text-left">
-            <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-primary/40 mx-auto md:mx-0 mb-4">
+            <div className=" rounded-lg overflow-hidden border-2 border-primary/40 mx-auto md:mx-0 mb-4">
               <img src={ajitPhoto} alt={profile?.name || "Ajit"} className="w-full h-full object-cover" />
             </div>
-            <h2 className="text-2xl font-bold text-foreground mb-1">{profile?.name}</h2>
-            <p className="text-muted-foreground mb-6">{profile?.title}</p>
+           
+          </motion.div>
+
+          <motion.form initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6" onSubmit={handleSubmit}>
+          <div> <h2 className="text-3xl font-bold text-foreground mb-1">{profile?.name}</h2>
+            <p className="text-muted-foreground mb-4">{profile?.title}</p>
             <div className="space-y-3 text-sm text-muted-foreground">
               {profile?.phone && (
                 <a href={`tel:${profile.phone}`} className="flex items-center gap-3 justify-center md:justify-start hover:text-foreground transition-colors">
@@ -51,10 +55,8 @@ const Contact = () => {
                   <MapPin className="w-4 h-4 text-primary" /> {profile.location}
                 </div>
               )}
-            </div>
-          </motion.div>
-
-          <motion.form initial={{ opacity: 0, x: 40 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-4" onSubmit={handleSubmit}>
+            </div></div>
+          
             <h3 className="text-xl font-bold text-foreground mb-4">Get in Touch</h3>
             <input type="text" placeholder="Your Name" required value={form.sender_name} onChange={(e) => setForm({ ...form, sender_name: e.target.value })}
               className="w-full px-4 py-3 rounded-lg bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring text-sm" />

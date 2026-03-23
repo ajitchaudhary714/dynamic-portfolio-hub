@@ -32,7 +32,7 @@ const Journey = () => {
         </motion.p>
 
         {/* Timeline */}
-        <div className="relative max-w-3xl mx-auto mb-24">
+        <div className="relative max-w-5xl mx-auto mb-24">
           {/* Vertical line */}
           <div className="absolute left-6 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-secondary to-transparent" />
 
